@@ -1,0 +1,69 @@
+<mat-card>
+    <mat-card-content>
+    <h1>Signos Vitales</h1>
+    <form [formGroup]="form" (submit)="operate()" class="example-container">
+
+        <div [hidden]="true">
+            <mat-form-field>
+                <input matInput placeholder="ID" required formControlName="idSign">
+            </mat-form-field>
+        </div>
+        
+        <div fxLayout="column" fxLayoutAlign="center" >
+            <div fxLayout="row" fxLayout.gt-sm="row wrap" fxLayoutAlign="start" fxLayoutGap="10px">
+                <mat-form-field fxFlex="100%" fxFlex.gt-sm="70%">
+                    <input matInput placeholder="Patient" [matAutocomplete]="autoPatient" formControlName="patient">
+                    <mat-autocomplete #autoPatient="matAutocomplete" [displayWith]="showPatient">
+                        <mat-option *ngFor="let p of patientsFiltered$ | async" [value]="p">
+                            {{p.firstName}} {{p.lastName}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <div fxLayout="column" fxFlex="100%" fxFlex.gt-sm="20%" >
+                    <span fxLayoutAlign="center">
+                        (Componente de edición)
+                    </span>
+                    <button mat-raised-button color="primary" type="button" (click)="openDialog()">New Patient</button>
+                </div>
+            </div>
+        </div>
+        
+    
+        <mat-form-field>
+            <mat-label>date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date" readonly>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled></mat-datepicker>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <input matInput placeholder="Temperature" required formControlName="temperature">
+            <small *ngIf="f['temperature'].errors?.['required'] && f['temperature'].touched" class="invalid">Is required</small>
+            <small *ngIf="f['temperature'].errors?.['minlength'] && f['temperature'].touched" class="invalid">Minlength is 2</small>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <input matInput placeholder="Pulse" required formControlName="pulse">
+            <small *ngIf="f['pulse'].errors?.['required'] && f['pulse'].touched" class="invalid">Is required</small>
+            <small *ngIf="f['pulse'].errors?.['minlength'] && f['pulse'].touched" class="invalid">Minlength is 2</small>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <input matInput placeholder="Respiratory rate" required formControlName="rate">
+            <small *ngIf="f['rate'].errors?.['required'] && f['rate'].touched" class="invalid">Is required</small>
+            <small *ngIf="f['rate'].errors?.['minlength'] && f['rate'].touched" class="invalid">Minlength is 2</small>
+        </mat-form-field>
+    
+        <button mat-raised-button type="submit" color="primary">
+            <mat-icon>done</mat-icon>
+            <span>{{valueButton}}</span>
+        </button>
+    
+        <button mat-raised-button type="button" color="accent" routerLink="/pages/vital-signs">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancel</span>
+        </button>
+    
+    </form>
+</mat-card-content>
+</mat-card>
